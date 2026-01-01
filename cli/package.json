@@ -10,7 +10,7 @@
     "templates"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && create-starter-pack",
     "prepublishOnly": "npm run build"
   },
   "author": "sahil kumar dev",
