@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { ProjectConfig, FileTemplate } from "./types";
-import { getTemplates } from "./templates";
+import { ProjectConfig } from "./types";
+import { getTemplates } from "./get-templates";
 
 export async function createProject(config: ProjectConfig): Promise<void> {
   const projectPath = path.join(process.cwd(), config.projectName);

@@ -17,7 +17,7 @@ export async function runCLI(): Promise<void> {
       default: "my-app",
       validate: (input: string) => {
         if (/^[a-z0-9-_]+$/.test(input)) return true;
-        return "Project name must contain only lowercase letters, numbers, hyphens, and underscores";
+        return "Project name contain only lowercase letters, numbers, hyphens, and underscores";
       },
     },
     {
@@ -25,19 +25,30 @@ export async function runCLI(): Promise<void> {
       name: "language",
       message: "Which language would you like to use?",
       choices: [
-        { name: "TypeScript", value: "typescript" },
         { name: "JavaScript", value: "javascript" },
+        { name: "TypeScript", value: "typescript" },
       ],
-      default: "typescript",
+      default: "javascript",
     },
     {
       type: "select",
       name: "styling",
       message: "Which styling solution would you like to use?",
       choices: [
-        { name: "Plain CSS", value: "css" },
+        { name: "Cascading Style Sheets (CSS)", value: "css" },
         { name: "Tailwind CSS", value: "tailwind" },
       ],
+    },
+    {
+      type: "select",
+      name: "tailwindVersion",
+      message: "Which version of Tailwind CSS would you like to use?",
+      choices: [
+        { name: "v3", value: "v3" },
+        { name: "v4", value: "v4" },
+      ],
+
+      when: (answers) => answers.styling === "tailwind",
     },
   ]);
 
@@ -49,9 +60,7 @@ export async function runCLI(): Promise<void> {
 
     console.log(chalk.bold.green("\n✨ Your project is ready!\n"));
     console.log(chalk.cyan("Next steps:"));
-    console.log(chalk.white(`  cd ${answers.projectName}`));
-    console.log(chalk.white("  npm install"));
-    console.log(chalk.white("  npm run dev"));
+    console.log(chalk.white(`cd ${answers.projectName}`));
     console.log();
   } catch (error) {
     spinner.fail(chalk.red("Failed to create project"));
