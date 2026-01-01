@@ -1,6 +1,6 @@
 {
   "name": "create-starter-pack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern CLI tool to create a starter project with favorite tech stack.",
   "bin": {
     "create-starter-pack": "./dist/index.js"
