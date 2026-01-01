@@ -1,91 +1,65 @@
 #!/usr/bin/env node
 
 import inquirer from "inquirer";
-import fs from "fs-extra";
-import path from "path";
-import { fileURLToPath } from "url";
-import process from "process";
+import chalk from "chalk";
+import ora from "ora";
+import { createProject } from "./generator";
+import { ProjectConfig } from "./types";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export async function runCLI(): Promise<void> {
+  console.log(chalk.bold.cyan("\n🚀 Welcome to create-starter-pack!\n"));
 
-type Answers = {
-  projectName: string;
-  language: "js" | "ts";
-  features: ("css" | "tailwind")[];
-};
+  const answers = await inquirer.prompt<ProjectConfig>([
+    {
+      type: "input",
+      name: "projectName",
+      message: "What is your project name?",
+      default: "my-app",
+      validate: (input: string) => {
+        if (/^[a-z0-9-_]+$/.test(input)) return true;
+        return "Project name must contain only lowercase letters, numbers, hyphens, and underscores";
+      },
+    },
+    {
+      type: "select",
+      name: "language",
+      message: "Which language would you like to use?",
+      choices: [
+        { name: "TypeScript", value: "typescript" },
+        { name: "JavaScript", value: "javascript" },
+      ],
+      default: "typescript",
+    },
+    {
+      type: "select",
+      name: "styling",
+      message: "Which styling solution would you like to use?",
+      choices: [
+        { name: "Plain CSS", value: "css" },
+        { name: "Tailwind CSS", value: "tailwind" },
+      ],
+    },
+  ]);
 
-process.on("SIGINT", () => {
-  console.log("\n❌ Project was not created successfully.");
-  process.exit(1);
-});
-
-async function main() {
-  let answers: Answers;
+  const spinner = ora("Creating your project...").start();
 
   try {
-    answers = await inquirer.prompt<Answers>([
-      {
-        type: "input",
-        name: "projectName",
-        message: "Project name:",
-        default: "my-app",
-        validate(input) {
-          return input.trim() !== "" ? true : "Project name cannot be empty";
-        },
-      },
-      {
-        type: "select",
-        name: "language",
-        message: "Select a language:",
-        choices: [
-          { name: "JavaScript", value: "js" },
-          { name: "TypeScript", value: "ts" },
-        ],
-      },
-      {
-        type: "checkbox",
-        name: "features",
-        message: "Select features:",
-        choices: [
-          { name: "CSS", value: "css" },
-          { name: "Tailwind CSS", value: "tailwind" },
-        ],
-        validate(answer) {
-          return answer.length > 0
-            ? true
-            : "You must select at least one feature";
-        },
-      },
-    ]);
+    await createProject(answers);
+    spinner.succeed(chalk.green("Project created successfully!"));
+
+    console.log(chalk.bold.green("\n✨ Your project is ready!\n"));
+    console.log(chalk.cyan("Next steps:"));
+    console.log(chalk.white(`  cd ${answers.projectName}`));
+    console.log(chalk.white("  npm install"));
+    console.log(chalk.white("  npm run dev"));
+    console.log();
   } catch (error) {
-    // ✅ Handles prompt cancel / escape / Ctrl+C inside prompt
-    console.log("\n❌ Project was not created successfully.");
-    process.exit(1);
-  }
-
-  // ✅ Only runs if all prompts completed successfully
-  const projectDir = path.join(process.cwd(), answers.projectName);
-
-  fs.ensureDirSync(projectDir);
-
-  copyTemplate("base", projectDir);
-  copyTemplate(answers.language, projectDir);
-
-  if (answers.features.includes("tailwind")) {
-    copyTemplate("tailwind", projectDir);
-  } else if (answers.features.includes("css")) {
-    copyTemplate("css", projectDir);
-  }
-
-  console.log("\n✅ Project created successfully!");
-}
-
-function copyTemplate(template: string, target: string) {
-  const templatePath = path.join(__dirname, "../templates", template);
-  if (fs.existsSync(templatePath)) {
-    fs.copySync(templatePath, target, { overwrite: true });
+    spinner.fail(chalk.red("Failed to create project"));
+    throw error;
   }
 }
 
-main();
+runCLI().catch((error) => {
+  console.error("An error occurred:", error.message);
+  process.exit(1);
+});
