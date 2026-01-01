@@ -1,8 +1,7 @@
 {
   "name": "create-starter-pack",
   "version": "1.0.0",
-  "description": "A modern CLI tool to scaffold JavaScript and TypeScript projects",
-
+  "description": "A modern CLI tool to create a starter project with favorite tech stack.",
   "bin": {
     "create-starter-pack": "./dist/index.js"
   },
@@ -11,7 +10,7 @@
     "templates"
   ],
   "scripts": {
-    "build": "tsc && create-starter-pack",
+    "build": "tsc",
     "prepublishOnly": "npm run build"
   },
   "author": "sahil kumar dev",
@@ -31,7 +30,8 @@
   "keywords": [
     "create-app",
     "starter",
-    "scaffold",
+    "starter-pack",
+    "tailwind css",
     "cli",
     "typescript",
     "javascript"

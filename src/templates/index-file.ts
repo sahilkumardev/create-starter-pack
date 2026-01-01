@@ -14,9 +14,17 @@ export function getIndexFile(config: ProjectConfig): string {
     }`: "" }
   </head>
   <body>
+    <!-- Sample Code --> 
+    ${ config.styling === "tailwind" ? `
+     <div class="min-h-screen flex items-center justify-center bg-gray-100">
+      <h1 class="text-4xl font-bold text-black">
+        Welcome to ${config.projectName}!
+      </h1>
+    </div> ` : ` 
     <div class="container">
       <h1 class="text">Welcome to ${config.projectName}!</h1>
-    </div>
+    </div>`
+    }
 
     <script src="script.${
       config.language === "typescript" ? "ts" : "js"

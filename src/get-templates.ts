@@ -1,7 +1,7 @@
 import { getReadme } from "./templates/readme-file";
 import { ProjectConfig, FileTemplate } from "./types";
 import { getIndexFile } from "./templates/index-file";
-import { getStyleFile } from "./templates/style-file";
+import { getCssConfig, getTailwindConfig } from "./templates/style-file";
 import { getJavaScript, getTypeScript } from "./templates/script-file";
 
 export function getTemplates(config: ProjectConfig): FileTemplate[] {
@@ -14,8 +14,9 @@ export function getTemplates(config: ProjectConfig): FileTemplate[] {
         config.language === "typescript" ? getTypeScript() : getJavaScript(),
     },
     {
-      path: `styles.${config.styling === "css" ? "css" : "css"}`,
-      content: getStyleFile(config),
+      path: `styles.css`,
+      content:
+        config.styling === "tailwind" ? getTailwindConfig() : getCssConfig(),
     },
   ];
 
