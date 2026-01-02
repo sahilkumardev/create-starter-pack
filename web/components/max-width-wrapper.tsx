@@ -1,13 +1,46 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import localFont from "next/font/local";
+
+const mono = localFont({
+  src: [
+    {
+      path: "../fonts/mono-light.woff2",
+      weight: "300",
+    },
+    {
+      path: "../fonts/mono-regular.woff2",
+      weight: "400",
+    },
+  ],
+  variable: "--font-mono",
+});
+
+const inter = localFont({
+  src: [
+    {
+      path: "../fonts/inter.woff2",
+    },
+  ],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export function MaxWidthWrapper({
   children,
   className,
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"main">) {
   return (
-    <div className={cn("max-w-screen-2xl mx-auto relative", className)}>
+    <main
+      className={cn(
+        "max-w-screen-2xl mx-auto relative",
+        "font-inter antialiased tracking-wide font-normal leading-normal",
+        inter.variable,
+        mono.variable,
+        className
+      )}
+    >
       {children}
-    </div>
+    </main>
   );
 }
