@@ -16,12 +16,12 @@ export function HeroSection() {
   return (
     <section className="min-h-screen flex justify-center items-center">
       <div className="max-w-3xl place-content-center place-items-center text-center">
-        <h1 className="text-5xl font-mono font-semibold mb-4 leading-tight tracking-wide">
+        <h1 className="text-2xl sm:text-5xl font-mono font-semibold mb-1 sm:mb-2.5 leading-tight tracking-wide">
           Framework Experience
           <br />
           for the beginner dev 👌
         </h1>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-sm sm:text-lg px-3">
           A powerful CLI tool that helps beginners quickly scaffold (Basic)
           starter projects with index, CSS, and script files - getting you from
           zero to coding in seconds.
@@ -30,7 +30,7 @@ export function HeroSection() {
         <div
           className={cn(
             "font-mono text-sm cursor-default transition-all",
-            "flex items-center gap-2 px-7 py-4 rounded-full mt-4",
+            "flex items-center gap-2 px-7 py-4 rounded-full mt-6 sm:mt-8",
             "hover:text-foreground hover:border-muted-foreground/60",
             "hover:scale-105 hover:shadow-[0_0_30px_rgba(76,29,149,0.2)]",
             "bg-background/80 border text-muted-foreground duration-200 select-none [&_svg]:shrink-0 [&_svg]:size-4"

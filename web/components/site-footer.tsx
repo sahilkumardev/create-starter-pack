@@ -23,7 +23,7 @@ export function SiteFooter() {
           } as React.CSSProperties
         }
       />
-      <div className="flex items-center justify-between py-6 px-8 text-sm text-muted-foreground w-full">
+      <div className="place-items-center py-4 sm:flex sm:items-center sm:justify-between sm:py-6 px-8 text-sm text-muted-foreground w-full">
         <h1>{new Date().getFullYear()} © All rights reserved.</h1>
         <p className="">
           Design & develop by ❤️
@@ -31,7 +31,7 @@ export function SiteFooter() {
             href="https://sahilkumardev.com"
             target="_blank"
             referrerPolicy="no-referrer"
-            className="ml-1.5 hover:text-foreground font-mono tracking-wider"
+            className="ml-1.5 hover:text-foreground font-mono tracking-wider text-green-400"
           >
             sahilkumardev
           </Link>
