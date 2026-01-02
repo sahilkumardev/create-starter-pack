@@ -1,6 +1,10 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { Background } from "@/components/background";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { MaxWidthWrapper } from "@/components/max-width-wrapper";
+import ReactLenis from "lenis/react";
 
 export const metadata: Metadata = {
   title: "Starter Pack Cli",
@@ -14,10 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
-        <MaxWidthWrapper>
-          {children}
-        </MaxWidthWrapper>
+      <body suppressHydrationWarning className="dark">
+        <ReactLenis root>
+          <Background />
+          <MaxWidthWrapper>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </MaxWidthWrapper>
+        </ReactLenis>
       </body>
     </html>
   );
