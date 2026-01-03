@@ -5,6 +5,7 @@ import React from "react";
 
 export function HeroSection() {
   const [copied, setCopied] = React.useState(false);
+  const [downloads, setDownloads] = React.useState<number | null>(null);
 
   const handleCopy = (cmd: string) => {
     navigator.clipboard.writeText(cmd).then(() => {
@@ -13,9 +14,30 @@ export function HeroSection() {
     });
   };
 
+  // https://www.npmjs.com/package/create-starter-pack
+
+  React.useEffect(() => {
+    const fetchDownloads = async () => {
+      try {
+        const response = await fetch(
+          "https://api.npmjs.org/downloads/point/last-month/create-starter-pack"
+        );
+        const data = await response.json();
+        setDownloads(data.downloads);
+      } catch (error) {
+        console.error("Error fetching download data:", error);
+      }
+    };
+
+    fetchDownloads();
+  }, []);
+
   return (
     <section className="min-h-screen flex justify-center items-center">
       <div className="max-w-3xl place-content-center place-items-center text-center">
+        <span className="border px-3.5 py-1.5 rounded-2xl text-sm font-mono text-muted-foreground flex items-center justify-center bg-foreground/10 mb-4">
+          {downloads} downloads last month
+        </span>
         <h1 className="text-2xl sm:text-5xl font-mono font-semibold mb-1 sm:mb-2.5 leading-tight tracking-wide">
           Framework Experience
           <br />
